@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeToggle } from "@/components/theme-toggle";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,28 +26,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
       >
-        <header className="border-b border-border">
-          <nav className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
-            <Link href="/" className="font-medium hover:text-muted-foreground transition-colors">
-              Home
-            </Link>
-            <div className="flex gap-6">
-              <Link href="/about" className="text-muted-foreground hover:text-foreground transition-colors">
-                About
+        <ThemeProvider>
+          <header className="border-b border-border">
+            <nav className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
+              <Link href="/" className="font-medium hover:text-muted-foreground transition-colors">
+                Home
               </Link>
-              <Link href="/lab" className="text-muted-foreground hover:text-foreground transition-colors">
-                Lab
-              </Link>
-            </div>
-          </nav>
-        </header>
-        <main className="max-w-3xl mx-auto px-6 py-12">
-          {children}
-        </main>
+              <div className="flex items-center gap-6">
+                <Link href="/about" className="text-muted-foreground hover:text-foreground transition-colors">
+                  About
+                </Link>
+                <Link href="/lab" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Lab
+                </Link>
+                <ThemeToggle />
+              </div>
+            </nav>
+          </header>
+          <main className="max-w-3xl mx-auto px-6 py-12">
+            {children}
+          </main>
+        </ThemeProvider>
       </body>
     </html>
   );

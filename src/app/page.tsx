@@ -15,9 +15,13 @@ export default function Home() {
           className="rounded-full shadow-lg"
         />
       </div>
-      <h1 className="text-4xl font-bold tracking-tight">Hello, I'm Paul B.</h1>
-      <p className="text-lg text-muted-foreground leading-relaxed">
-        Welcome to my corner of the internet. I build things and share what I learn.
+      <h1 className="text-4xl font-bold tracking-tight">Hello, I'm Paul Brennaman</h1>
+      <p className="text-xl text-muted-foreground leading-relaxed">
+        Software Engineering Leader
+      </p>
+      <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">
+        I lead engineering teams that build platforms and systems tied to real business outcomes. 
+        Most recently at The Home Depot, driving revenue-linked products and cloud enablement platforms.
       </p>
       <div className="flex gap-4">
         <Button asChild>

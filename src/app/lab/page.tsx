@@ -2,9 +2,9 @@ import Link from "next/link";
 
 const experiments = [
   {
-    slug: "experiment-1",
-    title: "Experiment One",
-    description: "A brief description of this experiment.",
+    slug: "ai-assistant-automation",
+    title: "Building with AI Assistants",
+    description: "Using OpenClaw to automate Google Workspace, GitHub, and personal infrastructure with AI-driven workflows.",
   },
   {
     slug: "experiment-2",

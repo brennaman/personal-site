@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import React from "react";
 
 type ExperimentContent = {
   title: string;
-  component: () => JSX.Element;
+  component: () => React.ReactElement;
 };
 
 const experiments: Record<string, ExperimentContent> = {

@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Linkedin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -31,17 +30,14 @@ export default function Home() {
         <Button variant="outline" asChild>
           <Link href="/lab">View experiments</Link>
         </Button>
-        <Button variant="outline" asChild>
-          <Link
-            href="https://www.linkedin.com/in/paulbrennaman"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5"
-          >
-            <Linkedin className="size-3.5 shrink-0 opacity-70" aria-hidden="true" />
-            <span>LinkedIn</span>
-          </Link>
-        </Button>
+        <Link
+          href="https://www.linkedin.com/in/paulbrennaman"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground transition-colors"
+        >
+          LinkedIn
+        </Link>
       </div>
     </div>
   );

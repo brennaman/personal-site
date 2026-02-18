@@ -67,7 +67,7 @@ export function HomeRainOverlay() {
       {drops.map((drop, idx) => (
         <span
           key={idx}
-          className="absolute top-[-10%] h-8 w-[2px] bg-sky-400/90 dark:bg-sky-200/80"
+          className="absolute top-[-10%] h-10 w-[1.5px] rounded-full bg-gradient-to-b from-sky-100/40 via-sky-300/90 to-sky-500/30 blur-[0.2px]"
           style={{
             left: drop.left,
             animation: `rain-fall ${drop.duration} linear ${drop.delay} infinite`,

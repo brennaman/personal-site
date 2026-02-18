@@ -117,14 +117,14 @@
 
 @keyframes rain-fall {
   0% {
-    transform: translateY(-10%);
+    transform: translate3d(-10px, -20%, 0) rotate(14deg);
     opacity: 0;
   }
   10% {
     opacity: 0.9;
   }
   100% {
-    transform: translateY(130%);
+    transform: translate3d(24px, 130%, 0) rotate(14deg);
     opacity: 0;
   }
 }

@@ -51,7 +51,7 @@ function RainOverlay({ active }: { active: boolean }) {
       {drops.map((drop, idx) => (
         <span
           key={idx}
-          className="absolute top-[-20%] h-4 w-[1.5px] bg-sky-300/80 dark:bg-sky-200/70"
+          className="absolute top-[-20%] h-5 w-[1.5px] rounded-full bg-gradient-to-b from-sky-100/40 via-sky-300/90 to-sky-500/30 blur-[0.2px]"
           style={{
             left: drop.left,
             animation: `rain-fall ${drop.duration} linear ${drop.delay} infinite`,

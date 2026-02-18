@@ -36,9 +36,9 @@ export default function Home() {
             href="https://www.linkedin.com/in/paulbrennaman"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2"
+            className="inline-flex items-center gap-1.5"
           >
-            <Linkedin className="size-4" aria-hidden="true" />
+            <Linkedin className="size-3.5 shrink-0 opacity-70" aria-hidden="true" />
             <span>LinkedIn</span>
           </Link>
         </Button>

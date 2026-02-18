@@ -1,13 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const RAIN_PENDING_KEY = "home-rain-overlay-pending";
 
 export function HomeRainOverlay() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [active, setActive] = useState(false);
   const timerRef = useRef<number | null>(null);
 
@@ -45,8 +44,11 @@ export function HomeRainOverlay() {
       activate();
     }
 
-    if (searchParams.get("rain") === "1") {
-      activate();
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("rain") === "1") {
+        activate();
+      }
     }
 
     return () => {
@@ -55,7 +57,7 @@ export function HomeRainOverlay() {
         window.clearTimeout(timerRef.current);
       }
     };
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   if (!active || pathname !== "/") return null;
 

@@ -1,11 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+
+const RAIN_PENDING_KEY = "home-rain-overlay-pending";
 
 export function HomeRainOverlay() {
   const pathname = usePathname();
   const [active, setActive] = useState(false);
+  const timerRef = useRef<number | null>(null);
 
   const drops = useMemo(
     () =>
@@ -18,15 +21,35 @@ export function HomeRainOverlay() {
   );
 
   useEffect(() => {
-    const onTrigger = () => {
+    const activate = () => {
       if (pathname !== "/") return;
 
       setActive(true);
-      window.setTimeout(() => setActive(false), 3200);
+      sessionStorage.removeItem(RAIN_PENDING_KEY);
+
+      if (timerRef.current) {
+        window.clearTimeout(timerRef.current);
+      }
+      timerRef.current = window.setTimeout(() => {
+        setActive(false);
+        timerRef.current = null;
+      }, 3200);
     };
 
+    const onTrigger = () => activate();
+
     window.addEventListener("home-rain-trigger", onTrigger as EventListener);
-    return () => window.removeEventListener("home-rain-trigger", onTrigger as EventListener);
+
+    if (sessionStorage.getItem(RAIN_PENDING_KEY) === "1") {
+      activate();
+    }
+
+    return () => {
+      window.removeEventListener("home-rain-trigger", onTrigger as EventListener);
+      if (timerRef.current) {
+        window.clearTimeout(timerRef.current);
+      }
+    };
   }, [pathname]);
 
   if (!active || pathname !== "/") return null;

@@ -18,6 +18,7 @@ type HomeWeatherProps = {
 
 const MARIETTA_LABEL = "Marietta, GA";
 const RAIN_SESSION_KEY = "home-rain-overlay-played";
+const RAIN_PENDING_KEY = "home-rain-overlay-pending";
 const SECRET_CODE = "rain";
 
 function isRainCode(code: number): boolean {
@@ -66,10 +67,13 @@ export function HomeWeather({ compact = false }: HomeWeatherProps) {
   const [loading, setLoading] = useState(true);
   const [rainOverlay, setRainOverlay] = useState(false);
   const rainTimerRef = useRef<number | null>(null);
+  const tapCountRef = useRef(0);
+  const tapResetTimerRef = useRef<number | null>(null);
 
   const triggerRain = useCallback(() => {
     setRainOverlay(true);
     if (typeof window !== "undefined") {
+      sessionStorage.setItem(RAIN_PENDING_KEY, "1");
       window.dispatchEvent(new CustomEvent("home-rain-trigger"));
     }
 
@@ -146,8 +150,35 @@ export function HomeWeather({ compact = false }: HomeWeatherProps) {
       if (rainTimerRef.current) {
         window.clearTimeout(rainTimerRef.current);
       }
+      if (tapResetTimerRef.current) {
+        window.clearTimeout(tapResetTimerRef.current);
+      }
     };
   }, []);
+
+  const onCompactWeatherTap = () => {
+    if (!compact) return;
+
+    tapCountRef.current += 1;
+
+    if (tapResetTimerRef.current) {
+      window.clearTimeout(tapResetTimerRef.current);
+    }
+
+    tapResetTimerRef.current = window.setTimeout(() => {
+      tapCountRef.current = 0;
+      tapResetTimerRef.current = null;
+    }, 1200);
+
+    if (tapCountRef.current >= 5) {
+      tapCountRef.current = 0;
+      if (tapResetTimerRef.current) {
+        window.clearTimeout(tapResetTimerRef.current);
+        tapResetTimerRef.current = null;
+      }
+      triggerRain();
+    }
+  };
 
   if (loading) {
     if (compact) {
@@ -175,11 +206,15 @@ export function HomeWeather({ compact = false }: HomeWeatherProps) {
 
   if (compact) {
     return (
-      <div className="inline-flex items-center gap-1.5 text-xs text-muted-foreground rounded-md border border-border/70 bg-muted/30 px-2 py-1">
+      <button
+        type="button"
+        onClick={onCompactWeatherTap}
+        className="inline-flex items-center gap-1.5 text-xs text-muted-foreground rounded-md border border-border/70 bg-muted/30 px-2 py-1"
+      >
         <WeatherIcon className="size-3.5" />
         <span className="font-medium text-foreground">{Math.round(data.temperature)}°F</span>
         <span className="hidden sm:inline">· {MARIETTA_LABEL}</span>
-      </div>
+      </button>
     );
   }
 

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Linkedin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -35,8 +36,10 @@ export default function Home() {
             href="https://www.linkedin.com/in/paulbrennaman"
             target="_blank"
             rel="noopener noreferrer"
+            className="inline-flex items-center gap-2"
           >
-            LinkedIn
+            <Linkedin className="size-4" aria-hidden="true" />
+            <span>LinkedIn</span>
           </Link>
         </Button>
       </div>

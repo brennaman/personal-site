@@ -1,7 +1,7 @@
 "use client";
 
 import { Cloud, CloudRain, CloudSun, Loader2, Sun } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type WeatherData = {
   temperature: number;
@@ -14,6 +14,7 @@ type WeatherData = {
 
 const MARIETTA_LABEL = "Marietta, GA";
 const RAIN_SESSION_KEY = "home-rain-overlay-played";
+const SECRET_CODE = "rain";
 
 function isRainCode(code: number): boolean {
   return [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code);
@@ -60,6 +61,18 @@ export function HomeWeather() {
   const [data, setData] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(true);
   const [rainOverlay, setRainOverlay] = useState(false);
+  const rainTimerRef = useRef<number | null>(null);
+
+  const triggerRain = useCallback(() => {
+    setRainOverlay(true);
+    if (rainTimerRef.current) {
+      window.clearTimeout(rainTimerRef.current);
+    }
+    rainTimerRef.current = window.setTimeout(() => {
+      setRainOverlay(false);
+      rainTimerRef.current = null;
+    }, 3200);
+  }, []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -89,9 +102,8 @@ export function HomeWeather() {
         if (isRainCode(weather.weatherCode) && typeof window !== "undefined") {
           const played = sessionStorage.getItem(RAIN_SESSION_KEY) === "1";
           if (!played) {
-            setRainOverlay(true);
+            triggerRain();
             sessionStorage.setItem(RAIN_SESSION_KEY, "1");
-            window.setTimeout(() => setRainOverlay(false), 3200);
           }
         }
       } finally {
@@ -101,6 +113,32 @@ export function HomeWeather() {
 
     void load();
     return () => controller.abort();
+  }, [triggerRain]);
+
+  useEffect(() => {
+    let buffer = "";
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
+      if (event.key.length !== 1) return;
+
+      buffer = `${buffer}${event.key.toLowerCase()}`.slice(-SECRET_CODE.length);
+      if (buffer === SECRET_CODE) {
+        triggerRain();
+        buffer = "";
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [triggerRain]);
+
+  useEffect(() => {
+    return () => {
+      if (rainTimerRef.current) {
+        window.clearTimeout(rainTimerRef.current);
+      }
+    };
   }, []);
 
   if (loading) {

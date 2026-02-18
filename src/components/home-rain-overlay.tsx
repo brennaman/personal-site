@@ -1,18 +1,19 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 const RAIN_PENDING_KEY = "home-rain-overlay-pending";
 
 export function HomeRainOverlay() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [active, setActive] = useState(false);
   const timerRef = useRef<number | null>(null);
 
   const drops = useMemo(
     () =>
-      Array.from({ length: 120 }, (_, i) => ({
+      Array.from({ length: 180 }, (_, i) => ({
         left: `${((i * 17) % 100) + 1}%`,
         duration: `${0.4 + ((i * 19) % 18) / 20}s`,
         delay: `${((i * 5) % 20) / 20}s`,
@@ -44,22 +45,27 @@ export function HomeRainOverlay() {
       activate();
     }
 
+    if (searchParams.get("rain") === "1") {
+      activate();
+    }
+
     return () => {
       window.removeEventListener("home-rain-trigger", onTrigger as EventListener);
       if (timerRef.current) {
         window.clearTimeout(timerRef.current);
       }
     };
-  }, [pathname]);
+  }, [pathname, searchParams]);
 
   if (!active || pathname !== "/") return null;
 
   return (
     <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden>
+      <div className="absolute inset-0 bg-sky-200/15 dark:bg-sky-900/20" />
       {drops.map((drop, idx) => (
         <span
           key={idx}
-          className="absolute top-[-10%] h-6 w-[1.5px] bg-sky-300/80 dark:bg-sky-200/70"
+          className="absolute top-[-10%] h-8 w-[2px] bg-sky-400/90 dark:bg-sky-200/80"
           style={{
             left: drop.left,
             animation: `rain-fall ${drop.duration} linear ${drop.delay} infinite`,

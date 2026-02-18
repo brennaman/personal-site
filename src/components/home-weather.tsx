@@ -12,6 +12,10 @@ type WeatherData = {
   isDay: number;
 };
 
+type HomeWeatherProps = {
+  compact?: boolean;
+};
+
 const MARIETTA_LABEL = "Marietta, GA";
 const RAIN_SESSION_KEY = "home-rain-overlay-played";
 const SECRET_CODE = "rain";
@@ -57,7 +61,7 @@ function RainOverlay({ active }: { active: boolean }) {
   );
 }
 
-export function HomeWeather() {
+export function HomeWeather({ compact = false }: HomeWeatherProps) {
   const [data, setData] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(true);
   const [rainOverlay, setRainOverlay] = useState(false);
@@ -65,6 +69,10 @@ export function HomeWeather() {
 
   const triggerRain = useCallback(() => {
     setRainOverlay(true);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("home-rain-trigger"));
+    }
+
     if (rainTimerRef.current) {
       window.clearTimeout(rainTimerRef.current);
     }
@@ -142,6 +150,15 @@ export function HomeWeather() {
   }, []);
 
   if (loading) {
+    if (compact) {
+      return (
+        <div className="text-xs text-muted-foreground inline-flex items-center gap-1.5">
+          <Loader2 className="size-3 animate-spin" />
+          <span>--°</span>
+        </div>
+      );
+    }
+
     return (
       <div className="rounded-xl border border-border bg-card/80 p-4 max-w-xl">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -155,6 +172,16 @@ export function HomeWeather() {
   if (!data) return null;
 
   const WeatherIcon = pickIcon(data.weatherCode, data.isDay);
+
+  if (compact) {
+    return (
+      <div className="inline-flex items-center gap-1.5 text-xs text-muted-foreground rounded-md border border-border/70 bg-muted/30 px-2 py-1">
+        <WeatherIcon className="size-3.5" />
+        <span className="font-medium text-foreground">{Math.round(data.temperature)}°F</span>
+        <span className="hidden sm:inline">· {MARIETTA_LABEL}</span>
+      </div>
+    );
+  }
 
   return (
     <div className="relative rounded-xl border border-border bg-card/80 p-4 max-w-xl overflow-hidden">

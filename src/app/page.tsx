@@ -1,4 +1,3 @@
-import { HomeWeather } from "@/components/home-weather";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,7 +23,6 @@ export default function Home() {
         I lead engineering teams that build platforms and systems tied to real business outcomes. 
         Most recently at The Home Depot, driving revenue-linked products and cloud enablement platforms.
       </p>
-      <HomeWeather />
       <div className="flex gap-4">
         <Button asChild>
           <Link href="/about">About me</Link>

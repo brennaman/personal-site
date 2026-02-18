@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
+import { HomeRainOverlay } from "@/components/home-rain-overlay";
+import { HomeWeather } from "@/components/home-weather";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
 import "./globals.css";
@@ -31,11 +33,15 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
       >
         <ThemeProvider>
+          <HomeRainOverlay />
           <header className="border-b border-border">
-            <nav className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
-              <Link href="/" className="font-medium hover:text-muted-foreground transition-colors">
-                Home
-              </Link>
+            <nav className="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3 min-w-0">
+                <HomeWeather compact />
+                <Link href="/" className="font-medium hover:text-muted-foreground transition-colors">
+                  Home
+                </Link>
+              </div>
               <div className="flex items-center gap-6">
                 <Link href="/about" className="text-muted-foreground hover:text-foreground transition-colors">
                   About

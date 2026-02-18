@@ -23,13 +23,21 @@ export default function Home() {
         I lead engineering teams that build platforms and systems tied to real business outcomes. 
         Most recently at The Home Depot, driving revenue-linked products and cloud enablement platforms.
       </p>
-      <div className="flex gap-4">
+      <div className="flex flex-wrap gap-4">
         <Button asChild>
           <Link href="/about">About me</Link>
         </Button>
         <Button variant="outline" asChild>
           <Link href="/lab">View experiments</Link>
         </Button>
+        <Link
+          href="https://www.linkedin.com/in/paulbrennaman"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground transition-colors"
+        >
+          LinkedIn
+        </Link>
       </div>
     </div>
   );

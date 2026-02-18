@@ -115,6 +115,20 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@keyframes rain-fall {
+  0% {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(130%);
+    opacity: 0;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

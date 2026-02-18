@@ -8,8 +8,8 @@ const experiments = [
   },
   {
     slug: "experiment-2",
-    title: "Experiment Two",
-    description: "Another experiment exploring new ideas.",
+    title: "Mobile Tetris",
+    description: "A touch-friendly Tetris game built for mobile and desktop browsers.",
   },
 ];
 

@@ -1,6 +1,8 @@
+/* eslint-disable react/no-unescaped-entities */
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
+import { TetrisGame } from "@/components/lab/tetris-game";
 
 type ExperimentContent = {
   title: string;
@@ -148,10 +150,8 @@ const experiments: Record<string, ExperimentContent> = {
     ),
   },
   "experiment-2": {
-    title: "Experiment Two",
-    component: () => (
-      <p className="text-muted-foreground">This is the second experiment. Replace this with your actual content.</p>
-    ),
+    title: "Mobile Tetris",
+    component: () => <TetrisGame />,
   },
 };
 

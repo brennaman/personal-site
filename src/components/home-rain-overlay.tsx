@@ -1,0 +1,79 @@
+"use client";
+
+import { useEffect, useMemo, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+
+const RAIN_PENDING_KEY = "home-rain-overlay-pending";
+
+export function HomeRainOverlay() {
+  const pathname = usePathname();
+  const [active, setActive] = useState(false);
+  const timerRef = useRef<number | null>(null);
+
+  const drops = useMemo(
+    () =>
+      Array.from({ length: 180 }, (_, i) => ({
+        left: `${((i * 17) % 100) + 1}%`,
+        duration: `${0.4 + ((i * 19) % 18) / 20}s`,
+        delay: `${((i * 5) % 20) / 20}s`,
+      })),
+    []
+  );
+
+  useEffect(() => {
+    const activate = () => {
+      if (pathname !== "/") return;
+
+      setActive(true);
+      sessionStorage.removeItem(RAIN_PENDING_KEY);
+
+      if (timerRef.current) {
+        window.clearTimeout(timerRef.current);
+      }
+      timerRef.current = window.setTimeout(() => {
+        setActive(false);
+        timerRef.current = null;
+      }, 3200);
+    };
+
+    const onTrigger = () => activate();
+
+    window.addEventListener("home-rain-trigger", onTrigger as EventListener);
+
+    if (sessionStorage.getItem(RAIN_PENDING_KEY) === "1") {
+      activate();
+    }
+
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("rain") === "1") {
+        activate();
+      }
+    }
+
+    return () => {
+      window.removeEventListener("home-rain-trigger", onTrigger as EventListener);
+      if (timerRef.current) {
+        window.clearTimeout(timerRef.current);
+      }
+    };
+  }, [pathname]);
+
+  if (!active || pathname !== "/") return null;
+
+  return (
+    <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden>
+      <div className="absolute inset-0 bg-sky-200/15 dark:bg-sky-900/20" />
+      {drops.map((drop, idx) => (
+        <span
+          key={idx}
+          className="absolute top-[-10%] h-10 w-[1.5px] rounded-full bg-gradient-to-b from-sky-100/40 via-sky-300/90 to-sky-500/30 blur-[0.2px]"
+          style={{
+            left: drop.left,
+            animation: `rain-fall ${drop.duration} linear ${drop.delay} infinite`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}

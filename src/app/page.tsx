@@ -15,7 +15,7 @@ export default function Home() {
           className="rounded-full shadow-lg"
         />
       </div>
-      <h1 className="text-4xl font-bold tracking-tight">Hello, I'm Paul Brennaman</h1>
+      <h1 className="text-4xl font-bold tracking-tight">Hello, I&apos;m Paul Brennaman</h1>
       <p className="text-xl text-muted-foreground leading-relaxed">
         Software Engineering Leader
       </p>

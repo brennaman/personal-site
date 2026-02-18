@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function AboutPage() {
   return (
     <div className="space-y-8">
@@ -6,8 +8,8 @@ export default function AboutPage() {
       <div className="prose prose-neutral dark:prose-invert max-w-none">
         <div className="space-y-4">
           <p className="text-lg text-muted-foreground leading-relaxed">
-            I'm a Software Engineering Leader with deep experience building and leading teams that deliver platforms tied directly to business outcomes. 
-            I've spent the last several years at The Home Depot leading full-stack engineering teams responsible for revenue-driving systems and internal developer platforms.
+            I&apos;m a Software Engineering Leader with deep experience building and leading teams that deliver platforms tied directly to business outcomes. 
+            I&apos;ve spent the last several years at The Home Depot leading full-stack engineering teams responsible for revenue-driving systems and internal developer platforms.
           </p>
           
           <p className="text-muted-foreground leading-relaxed">
@@ -21,7 +23,7 @@ export default function AboutPage() {
           </p>
 
           <p className="text-muted-foreground leading-relaxed">
-            I'm technical by background—comfortable in React, Go, Node.js, TypeScript—but I focus on growing engineers, unblocking delivery, and aligning teams around shared outcomes. 
+            I&apos;m technical by background—comfortable in React, Go, Node.js, TypeScript—but I focus on growing engineers, unblocking delivery, and aligning teams around shared outcomes. 
             I believe in trust, exposure, and accountability as the foundation for great engineering teams.
           </p>
         </div>
@@ -62,7 +64,7 @@ export default function AboutPage() {
         <div className="mt-8 pt-6 border-t border-border">
           <p className="text-muted-foreground leading-relaxed">
             Outside of work, I experiment with new tools and frameworks—this site is part of that. 
-            Check out the <a href="/lab" className="text-primary hover:underline">lab</a> for side projects and experiments.
+            Check out the <Link href="/lab" className="text-primary hover:underline">lab</Link> for side projects and experiments.
           </p>
         </div>
       </div>

@@ -38,6 +38,14 @@ export default function Home() {
         >
           LinkedIn
         </Link>
+        <Link
+          href="https://github.com/brennaman"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground transition-colors"
+        >
+          GitHub
+        </Link>
       </div>
     </div>
   );
